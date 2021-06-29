@@ -1,0 +1,162 @@
+{
+  "templates": [
+    {
+      "name": "Component",
+      "path": "<%=roleToPath(role)%>/<%=moduleToPath(module, newModule)%><%=capitalize(name)%>",
+      "files": [
+        {
+          "name": "<%=capitalize(name)%>.component.tsx",
+          "template": "templates/fc"
+        },
+        {
+          "name": "index.ts",
+          "template": "templates/fc.index"
+        },
+        {
+          "name": "<%=capitalize(name)%>.component.spec.tsx",
+          "template": "templates/fc.spec",
+          "path": "<%=roleToPath(role)%>/<%=moduleToPath(module, newModule)%><%=capitalize(name)%>/__tests__"
+        }
+      ],
+      "variables": {
+        "name": { "type": "text", "message": "What name for the component ?" },
+        "role": {
+          "type": "choices",
+          "choices": ["Generic component", "Page", "Module"],
+          "message": "What is the role of the component ?"
+        },
+        "createNewModule": {
+          "type": "choices",
+          "choices": ["No", "Yes"],
+          "message": "Do you want to create a new module ?",
+          "condition": "role==='Module'"
+        },
+        "newModule": {
+          "type": "text",
+          "message": "What name for the module ?",
+          "condition": "createNewModule==='Yes'"
+        },
+        "module": {
+          "type": "directory",
+          "path": "./src/modules",
+          "message": "In which module you want to put the component ?",
+          "condition": "createNewModule==='No'"
+        }
+      }
+    },
+    {
+      "name": "Container",
+      "path": "<%=takeOffFileName(component)%>",
+      "files": [
+        {
+          "name": "<%=componentNameFromPath(component)%>.container.ts",
+          "template": "templates/container"
+        },
+        {
+          "name": "<%=componentNameFromPath(component)%>.container.spec.tsx",
+          "template": "templates/container.spec",
+          "path": "<%=takeOffFileName(component)%>/__tests__"
+        },
+        {
+          "name": "index.ts",
+          "template": "templates/container.index",
+          "replaceExistingFile": "yes"
+        }
+      ],
+      "variables": {
+        "component": {
+          "type": "file",
+          "message": "For which component ?",
+          "matchString": ".component.tsx",
+          "path": "./src"
+        }
+      }
+    },
+    {
+      "name": "GQL",
+      "path": "./src/modules/<%=moduleToPath(module, newModule)%>use<%=capitalize(name)%>",
+      "files": [
+        {
+          "name": "use<%=capitalize(name)%>.hook.ts",
+          "template": "templates/gql.<%=type%>.hook"
+        },
+        {
+          "name": "use<%=capitalize(name)%>.graphql.ts",
+          "template": "templates/gql.graphql"
+        },
+        {
+          "name": "use<%=capitalize(name)%>.spec.tsx",
+          "template": "templates/gql.<%=type%>.spec",
+          "path": "./src/modules/<%=moduleToPath(module, newModule)%>use<%=capitalize(name)%>/__tests__"
+        },
+        {
+          "name": "index.ts",
+          "template": "templates/gql.index"
+        }
+      ],
+      "variables": {
+        "name": {
+          "type": "text"
+        },
+        "type": {
+          "type": "choices",
+          "choices": ["query", "mutation"]
+        },
+        "variables": {
+          "type": "array",
+          "message": "Enter variables of the <%=type%> :",
+          "variables": {
+            "name": {
+              "type": "text",
+              "message": "Enter the name of the variable"
+            },
+            "type": {
+              "type": "autocomplete",
+              "choices": [
+                "ID!",
+                "ID",
+                "String!",
+                "String",
+                "Int!",
+                "Int",
+                "Float!",
+                "Float",
+                "Boolean!",
+                "Boolean"
+              ]
+            }
+          }
+        },
+        "createNewModule": {
+          "type": "choices",
+          "choices": ["No", "Yes"],
+          "message": "Do you want to create a new module ?"
+        },
+        "newModule": {
+          "type": "text",
+          "message": "What name for the module ?",
+          "condition": "createNewModule==='Yes'"
+        },
+        "module": {
+          "type": "directory",
+          "path": "./src/modules",
+          "message": "In which module you want to put your GQL ?",
+          "condition": "createNewModule==='No'"
+        }
+      }
+    }
+  ],
+  "helpers": {
+    "roleToPath": "helpers/roleToPath",
+    "moduleToPath": "helpers/moduleToPath",
+    "takeOffFileName": "helpers/takeOffFileName",
+    "componentNameFromPath": "helpers/componentNameFromPath",
+    "variablesToGqlParams": "helpers/variablesToGqlParams",
+    "variablesToGqlAssignParams": "helpers/variablesToGqlAssignParams",
+    "variablesToTypescript": "helpers/variablesToTypescript",
+    "variablesToTSJoinComa": "helpers/variablesToTSJoinComa",
+    "variablesJoinComa": "helpers/variablesJoinComa",
+    "variablesToValue": "helpers/variablesToValue",
+    "camelToUpper": "helpers/camelToUpper"
+  }
+}

@@ -1,0 +1,9 @@
+import gql from 'graphql-tag';
+
+export const <%=camelToUpper(name)%> = gql`
+  <%=type%> boilerplate_<%=name%><%=variablesToGqlParams(variables)%> {
+    <%=name%><%=variablesToGqlAssignParams(variables)%> {
+    
+    }
+  }
+`;

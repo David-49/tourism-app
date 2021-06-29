@@ -1,0 +1,1 @@
+export { <%=capitalize(name)%> as default } from "./<%=capitalize(name)%>.component"

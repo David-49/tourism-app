@@ -1,0 +1,20 @@
+import { compose, withHooks } from 'wizhooks';
+import { <%=componentNameFromPath(component)%>, IProps } from './<%=componentNameFromPath(component)%>.component';
+
+interface IContainerProps extends Omit<IProps, TContainerProvides>  {}
+interface IConnectedProps extends IContainerProps {}
+
+type TContainerProvides = keyof Pick<IProps, ''>;
+
+const useContainer = (props: IConnectedProps): Pick<IProps, TContainerProvides> => {
+    // 
+};
+
+export const container = compose<IContainerProps, IProps>(
+    withHooks<IConnectedProps, [typeof useContainer], IProps>({
+        hook: useContainer,
+        params: (props) => [props],
+    })
+);
+
+export default container(<%=componentNameFromPath(component)%>);

@@ -1,0 +1,13 @@
+import { renderHook } from '@testing-library/react-hooks';
+import { ApolloMockedProvider, waitResolve } from '../../../../mocks/client';
+import { use<%=capitalize(name)%> } from '../use<%=capitalize(name)%>.hook';
+
+describe('use<%=capitalize(name)%>', () => {
+  it('should provide the property <%=name%> with the good value', async () => {
+    const { result } = renderHook(() => use<%=capitalize(name)%>(<%-variablesToValue({variables})%>), { wrapper: ApolloMockedProvider });
+
+    await waitResolve();
+
+    expect(result.current.<%=name%>).toEqual([]);
+  });
+});

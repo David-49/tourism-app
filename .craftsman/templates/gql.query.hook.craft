@@ -1,0 +1,24 @@
+import { useQuery } from '@apollo/client';
+import { ApolloError } from '@apollo/client';
+import { <%=camelToUpper(name)%> } from './use<%=capitalize(name)%>.graphql';
+
+export interface IUse<%=capitalize(name)%> {
+  <%=name%>?: IData['boilerplate_<%=name%>'];
+  loading: boolean;
+  error: ApolloError | undefined;
+}
+
+interface IData {
+  boilerplate_<%=name%>: [];
+}
+
+interface IVariables {
+<%=variablesToTypescript(variables)%>
+}
+
+export const use<%=capitalize(name)%> = (<%=variablesToTSJoinComa(variables)%>): IUse<%=capitalize(name)%> => {
+  const { data, loading, error } = useQuery<IData, IVariables>(<%=camelToUpper(name)%><%= !variables.length ? ");" : `, {
+    variables: { ${variablesJoinComa(variables)} },
+  });`%>
+  return { <%=name%>: data?.boilerplate_<%=name%>, loading, error };
+};
