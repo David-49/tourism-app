@@ -1,0 +1,1 @@
+export { SearchPlace as default } from "./SearchPlace.component"

@@ -1,6 +1,12 @@
+import { createStyles, makeStyles } from '@material-ui/core';
 import React from 'react';
 
-function App() {
+import { Map } from './modules/map/Map/Map.component';
+import SearchPlace from './modules/map/SearchPlace';
+
+const App = () => {
+  const classes = useStyles();
+
   const success = (pos: any) => {
     const crd = pos.coords;
 
@@ -21,7 +27,25 @@ function App() {
   };
 
   navigator.geolocation.getCurrentPosition(success, error, options);
-  return <h1>Hello world !</h1>;
-}
+  return (
+    <>
+      <SearchPlace />
+      <div className={classes.containerMap}>
+        <Map />
+      </div>
+    </>
+  );
+};
 
 export default App;
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    containerMap: {
+      margin: 'auto',
+      padding: theme.spacing(6),
+      width: '60%',
+      height: '60vh',
+    },
+  })
+);
