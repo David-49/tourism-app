@@ -7,8 +7,17 @@ import SearchPlace from './modules/map/SearchPlace';
 const App = () => {
   const classes = useStyles();
 
-  // query list of POI
+  // query list of POI based on string
   // https://maps.googleapis.com/maps/api/place/textsearch/json?query=todo+in+Angers&key=AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM
+
+  // query list of POI based on location(lat/lng)
+  //https://maps.googleapis.com/maps/api/place/textsearch/json?query=todo+in+&location=lat,lng&radius=1500&key=AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM
+
+  //https://developers.google.com/maps/documentation/places/web-service/autocomplete#location_restrict
+
+  //https://rajatamil.medium.com/how-to-get-data-from-google-maps-places-api-
+
+  //https://developers.google.com/maps/documentation/urls/get-started
 
   const success = (pos: any) => {
     const crd = pos.coords;
