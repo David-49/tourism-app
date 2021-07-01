@@ -7,6 +7,9 @@ import SearchPlace from './modules/map/SearchPlace';
 const App = () => {
   const classes = useStyles();
 
+  // query list of POI
+  // https://maps.googleapis.com/maps/api/place/textsearch/json?query=todo+in+Angers&key=AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM
+
   const success = (pos: any) => {
     const crd = pos.coords;
 
