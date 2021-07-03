@@ -6,6 +6,8 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
 import L from 'leaflet';
+import { ICoordinateGps } from '../../../typing/pointOfInterest';
+import ChangeMap from '../ChangeMap';
 
 let DefaultIcon = L.icon({
   ...L.Icon.Default.prototype.options,
@@ -15,21 +17,21 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-export interface IProps {}
+export interface IProps {
+  coordinateGps: ICoordinateGps;
+}
 
 export const Map: FC<IProps> = (props) => {
+  const { coordinateGps } = props;
+
   return (
-    <MapContainer
-      center={[51.505, -0.09]}
-      zoom={13}
-      scrollWheelZoom={true}
-      style={{ height: '100%', width: '100%' }}
-    >
+    <MapContainer scrollWheelZoom={true} style={{ height: '100%', width: '100%' }} zoom={13}>
+      <ChangeMap center={coordinateGps} />
       <TileLayer
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={[51.505, -0.09]} icon={DefaultIcon}>
+      <Marker position={[coordinateGps.lat, coordinateGps.lng]} icon={DefaultIcon}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>

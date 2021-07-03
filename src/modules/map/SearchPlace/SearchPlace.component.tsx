@@ -2,28 +2,28 @@ import React, { FC, useState } from 'react';
 
 import { Container, createStyles, makeStyles } from '@material-ui/core';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { ICoordinateGps } from '../../../typing/pointOfInterest';
 
-export interface IProps {}
+export interface IProps {
+  setCoordinateSelected: (value: ICoordinateGps) => void;
+}
 
 export const SearchPlace: FC<IProps> = (props) => {
+  const { setCoordinateSelected } = props;
   const classes = useStyles();
   const [location, setLocation] = useState<string>('');
-  const [coordinates, setCoordinates] = useState({
-    lat: 12.693,
-    lng: -164.602,
-  });
+  const [hasFocus, setHasFocus] = useState<boolean>(false);
 
   const handleSelect = async (value: string) => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
+    setHasFocus(false);
     setLocation(value);
-    setCoordinates(latLng);
+    setCoordinateSelected(latLng);
   };
 
-  console.log(coordinates);
-
   return (
-    <Container>
+    <Container className={classes.container}>
       <PlacesAutocomplete value={location} onChange={setLocation} onSelect={handleSelect}>
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
@@ -32,10 +32,12 @@ export const SearchPlace: FC<IProps> = (props) => {
                 placeholder: 'Rechercher un lieu ...',
                 className: classes.locationSearchInput,
               })}
+              onFocus={() => setHasFocus(true)}
+              onBlur={() => setHasFocus(false)}
             />
-            {!!suggestions && (
+            {!!location && !!hasFocus && !!suggestions && (
               <div className={classes.containerDropdown}>
-                {loading && <div>Loading...</div>}
+                {loading && <div>Chargement...</div>}
                 {suggestions.map((suggestion) => {
                   const className = suggestion.active
                     ? classes.suggestionItemActive
@@ -65,24 +67,16 @@ export const SearchPlace: FC<IProps> = (props) => {
 
 const useStyles = makeStyles((theme) =>
   createStyles({
-    root: {
-      padding: '2px 4px',
-      display: 'flex',
-      alignItems: 'center',
-      width: 400,
-    },
-    input: {
-      marginLeft: theme.spacing(1),
-      flex: 1,
-    },
-    iconButton: {
-      padding: 10,
+    container: {
+      position: 'absolute',
+      zIndex: 9000,
     },
     locationSearchInput: {
       padding: theme.spacing(1.5),
       borderRadius: theme.spacing(1),
       border: 'solid 1px #D2D2D2',
       boxShadow: '2px 4px 11px -10px #000000',
+      width: '40%',
     },
     suggestionItemActive: {
       color: 'white',

@@ -1,11 +1,19 @@
 import { createStyles, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Map } from './modules/map/Map/Map.component';
 import SearchPlace from './modules/map/SearchPlace';
+import PointsOfInterest from './modules/pointOfInterest/PointsOfInterest';
+import { ICoordinateGps } from './typing/pointOfInterest';
+import { GoogleMaps } from './modules/map/GoogleMaps/GoogleMaps.component';
 
 const App = () => {
   const classes = useStyles();
+
+  const [coordinateSelected, setCoordinateSelected] = useState<ICoordinateGps>({
+    lat: 49.11326579141176,
+    lng: 6.169426782134679,
+  });
 
   // query list of POI based on string
   // https://maps.googleapis.com/maps/api/place/textsearch/json?query=todo+in+Angers&key=AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM
@@ -19,31 +27,38 @@ const App = () => {
 
   //https://developers.google.com/maps/documentation/urls/get-started
 
-  const success = (pos: any) => {
-    const crd = pos.coords;
+  useEffect(() => {
+    const success = (pos: any) => {
+      const crd = pos.coords;
+      const coordinateFormatted = {
+        lat: crd.latitude,
+        lng: crd.longitude,
+      };
 
-    console.log('Votre position actuelle est :');
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude : ${crd.longitude}`);
-    console.log(`La précision est de ${crd.accuracy} mètres.`);
-  };
+      setCoordinateSelected(coordinateFormatted);
+    };
 
-  const error = (err: any) => {
-    console.warn(`ERREUR (${err.code}): ${err.message}`);
-  };
+    const error = (err: any) => {
+      console.warn(`ERREUR (${err.code}): ${err.message}`);
+    };
 
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  }, []);
 
-  navigator.geolocation.getCurrentPosition(success, error, options);
   return (
     <>
-      <SearchPlace />
+      <SearchPlace setCoordinateSelected={setCoordinateSelected} />
+      <PointsOfInterest coordinateSelected={coordinateSelected} />
+      <div className={classes.containerGoogleMap}>
+        <GoogleMaps coordinateGps={coordinateSelected} />
+      </div>
       <div className={classes.containerMap}>
-        <Map />
+        <Map coordinateGps={coordinateSelected} />
       </div>
     </>
   );
@@ -58,6 +73,9 @@ const useStyles = makeStyles((theme) =>
       padding: theme.spacing(6),
       width: '60%',
       height: '60vh',
+    },
+    containerGoogleMap: {
+      float: 'right',
     },
   })
 );

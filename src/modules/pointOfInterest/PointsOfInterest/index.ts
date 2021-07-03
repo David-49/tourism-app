@@ -1,0 +1,1 @@
+export { PointsOfInterest as default } from "./PointsOfInterest.component"
