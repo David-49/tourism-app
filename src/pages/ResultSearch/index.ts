@@ -1,0 +1,1 @@
+export { ResultSearch as default } from "./ResultSearch.component"

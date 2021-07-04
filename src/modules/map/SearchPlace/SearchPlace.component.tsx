@@ -38,7 +38,7 @@ export const SearchPlace: FC<IProps> = (props) => {
             {!!location && !!hasFocus && !!suggestions && (
               <div className={classes.containerDropdown}>
                 {loading && <div>Chargement...</div>}
-                {suggestions.map((suggestion) => {
+                {suggestions.map((suggestion, i) => {
                   const className = suggestion.active
                     ? classes.suggestionItemActive
                     : classes.suggestionItem;
@@ -52,7 +52,7 @@ export const SearchPlace: FC<IProps> = (props) => {
                         style,
                       })}
                     >
-                      <span>{suggestion.description}</span>
+                      <span key={i}>{suggestion.description}</span>
                     </div>
                   );
                 })}
