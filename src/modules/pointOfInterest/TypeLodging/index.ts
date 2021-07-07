@@ -1,0 +1,1 @@
+export { TypeLodging as default } from "./TypeLodging.component"

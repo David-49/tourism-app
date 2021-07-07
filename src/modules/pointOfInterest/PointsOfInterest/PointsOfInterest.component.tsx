@@ -1,47 +1,62 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 
 import { createStyles, makeStyles } from '@material-ui/core';
-import axios from 'axios';
 import { ICoordinateGps } from '../../../typing/pointOfInterest';
+import TypeRestaurant from '../TypeRestaurant';
+import TypeEntertainment from '../TypeEntertainment';
+import TypeHiking from '../TypeHiking';
+import TypeLodging from '../TypeLodging';
 
 export interface IProps {
   coordinateSelected: ICoordinateGps;
+  filterSelected: string;
 }
 
 export const PointsOfInterest: FC<IProps> = (props) => {
-  const { coordinateSelected } = props;
-  const classes = useStyles();
-
-  // https://maps.googleapis.com/maps/api/place/textsearch/json?query=todo+in+&location=49.1193089,6.175715599999999&radius=15000&key=AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM
-
-  // https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=49.1193089,6.175715599999999&radius=1500t&keyword=cruise&key=AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM
-
-  // useEffect(() => {
-  //   axios
-  //     .get(' https://maps.googleapis.com/maps/api/place/textsearch/json', {
-  //       params: {
-  //         query: `todo+in+`,
-  //         key: 'AIzaSyCzXx7_Ty2dlamb77uQGYHsmL1omLa7YKM',
-  //         location: `${coordinateSelected.lat},${coordinateSelected.lng}`,
-  //         radius: '15000',
-  //         strictbounds: true,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log(response);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [coordinateSelected]);
-
-  // const service = new google.maps.places.PlacesService(coordinateSelected);
+  const { coordinateSelected, filterSelected } = props;
 
   return (
-    <>
-      <></>
-    </>
+    <div className="my-20">
+      {filterSelected === 'Tout' && (
+        <>
+          <div className="mt-32">
+            <TypeRestaurant />
+          </div>
+          <div className="mt-32">
+            <TypeEntertainment />
+          </div>
+          <div className="mt-32">
+            <TypeHiking />
+          </div>
+          <div className="mt-32">
+            <TypeLodging />
+          </div>
+        </>
+      )}
+
+      {filterSelected === 'Restaurant' && (
+        <div className="mt-20">
+          <TypeRestaurant />
+        </div>
+      )}
+
+      {filterSelected === 'Divertissement' && (
+        <div className="mt-20">
+          <TypeEntertainment />
+        </div>
+      )}
+
+      {filterSelected === 'Randonnées' && (
+        <div className="mt-20">
+          <TypeHiking />
+        </div>
+      )}
+
+      {filterSelected === 'Randonnées' && (
+        <div className="mt-20">
+          <TypeLodging />
+        </div>
+      )}
+    </div>
   );
 };
-
-const useStyles = makeStyles((theme) => createStyles({}));

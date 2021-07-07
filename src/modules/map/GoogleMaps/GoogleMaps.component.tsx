@@ -74,12 +74,12 @@ export const Map: FC<IProps> = (props) => {
   });
 
   return (
-    <div>
+    <div className="flex justify-center">
       <GoogleMap
         center={coordinateGps}
         zoom={13}
         onLoad={(map) => onMapLoad(map)}
-        mapContainerStyle={{ height: '400px', width: '800px' }}
+        mapContainerStyle={{ height: '600px', width: '1240px' }}
       >
         {/* {coordsResult !== [] &&
           !!coordsResult &&

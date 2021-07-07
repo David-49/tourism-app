@@ -1,0 +1,1 @@
+export { TypeRestaurant as default } from "./TypeRestaurant.component"

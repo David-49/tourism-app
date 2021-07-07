@@ -1,0 +1,1 @@
+export { TypeEntertainment as default } from "./TypeEntertainment.component"

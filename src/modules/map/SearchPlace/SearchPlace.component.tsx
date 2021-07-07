@@ -1,8 +1,9 @@
 import React, { FC, useState } from 'react';
 
-import { Container, createStyles, makeStyles } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { ICoordinateGps } from '../../../typing/pointOfInterest';
+import { Link } from 'react-router-dom';
 
 export interface IProps {
   setCoordinateSelected: (value: ICoordinateGps) => void;
@@ -23,7 +24,7 @@ export const SearchPlace: FC<IProps> = (props) => {
   };
 
   return (
-    <Container className={classes.container}>
+    <div className={classes.container}>
       <PlacesAutocomplete value={location} onChange={setLocation} onSelect={handleSelect}>
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
@@ -43,7 +44,7 @@ export const SearchPlace: FC<IProps> = (props) => {
                     ? classes.suggestionItemActive
                     : classes.suggestionItem;
                   const style = suggestion.active
-                    ? { backgroundColor: '#3585F2', cursor: 'pointer' }
+                    ? { backgroundColor: '#00ABEB', cursor: 'pointer' }
                     : { backgroundColor: '#ffffff', cursor: 'pointer' };
                   return (
                     <div
@@ -52,7 +53,9 @@ export const SearchPlace: FC<IProps> = (props) => {
                         style,
                       })}
                     >
-                      <span key={i}>{suggestion.description}</span>
+                      <span key={i}>
+                        <Link to="results">{suggestion.description}</Link>
+                      </span>
                     </div>
                   );
                 })}
@@ -61,35 +64,33 @@ export const SearchPlace: FC<IProps> = (props) => {
           </div>
         )}
       </PlacesAutocomplete>
-    </Container>
+    </div>
   );
 };
 
 const useStyles = makeStyles((theme) =>
   createStyles({
     container: {
-      position: 'absolute',
+      position: 'relative',
       zIndex: 9000,
     },
     locationSearchInput: {
       padding: theme.spacing(1.5),
       borderRadius: theme.spacing(1),
-      border: 'solid 1px #D2D2D2',
-      boxShadow: '2px 4px 11px -10px #000000',
-      width: '40%',
+      boxShadow: '-4px 5px 15px #00000029',
+      width: '100%',
     },
     suggestionItemActive: {
       color: 'white',
       padding: theme.spacing(1),
-      borderRadius: theme.spacing(1),
     },
     suggestionItem: {
       padding: theme.spacing(1),
-      borderRadius: theme.spacing(1),
     },
     containerDropdown: {
-      border: 'solid 1px #D2D2D2',
       borderRadius: theme.spacing(1),
+      position: 'absolute',
+      top: '50px',
     },
   })
 );
