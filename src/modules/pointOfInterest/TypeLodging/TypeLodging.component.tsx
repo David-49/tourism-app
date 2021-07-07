@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 
 import {
   Card,
@@ -23,13 +23,26 @@ import {
   faWheelchair,
 } from '@fortawesome/free-solid-svg-icons';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { ILodgingOfInterest } from '../../../typing/pointOfInterest';
 
-export interface IProps {}
+export interface IProps {
+  addressSelected: string;
+}
 
 export const TypeLodging: FC<IProps> = (props) => {
   const classes = useStyles();
+  const { addressSelected } = props;
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const [cardSelected, setCardSelected] = useState({});
+  const [filteredHiking, setFilteredHiking] = useState<ILodgingOfInterest[]>([]);
+
+  useEffect(() => {
+    const filterCityLodging = lodgingOfInterestMocks.filter(
+      (lodging) => lodging.vicinity === addressSelected
+    );
+    setFilteredHiking(filterCityLodging);
+  }, [addressSelected]);
 
   const handleExpandClick = (index: number) => {
     setCardSelected(index);
@@ -47,9 +60,9 @@ export const TypeLodging: FC<IProps> = (props) => {
         <h2 className={`${classes.heavitasFont} text-xl`}>Hôtels/Campings</h2>
       </div>
       <div className="mt-12 space-y-20">
-        {!!lodgingOfInterestMocks.length ? (
-          lodgingOfInterestMocks.map((lodging, i) => (
-            <Card classes={{ root: classes.card }} className="w-11/12">
+        {!!filteredHiking.length ? (
+          filteredHiking.map((lodging, i) => (
+            <Card key={i} classes={{ root: classes.card }} className="w-11/12">
               <div className="relative flex items-center">
                 <div className="w-56 h-56">
                   <img
@@ -102,16 +115,16 @@ export const TypeLodging: FC<IProps> = (props) => {
                   <div>
                     <p className="font-bold mt-6 mb-2">Détails :</p>
                     <div className={`flex items-center flex-wrap space-x-3`}>
-                      {lodging.info_sup?.map((lodg) => (
-                        <p>{lodg}</p>
+                      {lodging.info_sup?.map((lodg, i) => (
+                        <p key={i}>{lodg}</p>
                       ))}
                     </div>
                   </div>
                 </div>
                 {!!lodging.others_images && (
                   <div className="my-16 flex items-center justify-evenly">
-                    {lodging.others_images?.map((image) => (
-                      <div className="w-48 h-48">
+                    {lodging.others_images?.map((image, i) => (
+                      <div key={i} className="w-48 h-48">
                         <img
                           className="w-full h-full object-cover object-center rounded-3xl shadow-xl"
                           src={process.env.PUBLIC_URL + image}

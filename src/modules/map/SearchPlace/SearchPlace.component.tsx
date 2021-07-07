@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 
 export interface IProps {
   setCoordinateSelected: (value: ICoordinateGps) => void;
+  setAddressSelected: (value: string) => void;
 }
 
 export const SearchPlace: FC<IProps> = (props) => {
-  const { setCoordinateSelected } = props;
+  const { setCoordinateSelected, setAddressSelected } = props;
   const classes = useStyles();
   const [location, setLocation] = useState<string>('');
   const [hasFocus, setHasFocus] = useState<boolean>(false);
@@ -18,6 +19,7 @@ export const SearchPlace: FC<IProps> = (props) => {
   const handleSelect = async (value: string) => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
+    setAddressSelected(value);
     setHasFocus(false);
     setLocation(value);
     setCoordinateSelected(latLng);
@@ -37,7 +39,7 @@ export const SearchPlace: FC<IProps> = (props) => {
               onBlur={() => setHasFocus(false)}
             />
             {!!location && !!hasFocus && !!suggestions && (
-              <div className={classes.containerDropdown}>
+              <div className={`${classes.containerDropdown} shadow-lg rounded-3xl`}>
                 {loading && <div>Chargement...</div>}
                 {suggestions.map((suggestion, i) => {
                   const className = suggestion.active
@@ -52,8 +54,9 @@ export const SearchPlace: FC<IProps> = (props) => {
                         className,
                         style,
                       })}
+                      key={i}
                     >
-                      <span key={i}>
+                      <span>
                         <Link to="results">{suggestion.description}</Link>
                       </span>
                     </div>

@@ -15,10 +15,14 @@ import { faLaptop, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-i
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { IEntertainmentOfInterest } from '../../../typing/pointOfInterest';
 
-export interface IProps {}
+export interface IProps {
+  addressSelected: string;
+}
 
 export const TypeEntertainment: FC<IProps> = (props) => {
   const classes = useStyles();
+  const { addressSelected } = props;
+
   const [activeType, setActiveType] = useState<string>('Tout');
   const [expanded, setExpanded] = useState<boolean>(false);
   const [cardSelected, setCardSelected] = useState({});
@@ -29,15 +33,21 @@ export const TypeEntertainment: FC<IProps> = (props) => {
   const listTypes = ['Tout', 'Musée', 'Cinéma', 'Marchés', 'Piscines', 'Théâtre', 'Patinoire'];
 
   useEffect(() => {
+    const filterCityEntertainment = entertainmentOfInterestMocks.filter(
+      (entertainment) => entertainment.vicinity === addressSelected
+    );
+    setFilteredEntertainment(filterCityEntertainment);
+    if (!filterCityEntertainment.length) return;
+
     if (activeType === 'Tout') {
-      setFilteredEntertainment(entertainmentOfInterestMocks);
+      setFilteredEntertainment(filterCityEntertainment);
       return;
     }
-    const filterEntertainment = entertainmentOfInterestMocks.filter(
+    const filterEntertainment = filterCityEntertainment.filter(
       (entertainment) => entertainment.type === activeType
     );
     setFilteredEntertainment(filterEntertainment);
-  }, [activeType]);
+  }, [activeType, addressSelected]);
 
   const handleExpandClick = (index: number) => {
     setCardSelected(index);
@@ -55,8 +65,9 @@ export const TypeEntertainment: FC<IProps> = (props) => {
         <h2 className={`${classes.heavitasFont} text-xl`}>Divertissement</h2>
       </div>
       <div className="space-x-4 mt-10">
-        {listTypes.map((type) => (
+        {listTypes.map((type, i) => (
           <span
+            key={i}
             onClick={() => setActiveType(type)}
             className={`${classes.heavitasFont} ${classes.chip} ${
               activeType === type ? 'shadow-none bg-purpleEntertainment text-white' : ''
@@ -69,7 +80,7 @@ export const TypeEntertainment: FC<IProps> = (props) => {
       <div className="mt-20 space-y-20">
         {!!filteredEntertainment.length ? (
           filteredEntertainment.map((entertainment, i) => (
-            <Card classes={{ root: classes.card }} className="w-11/12">
+            <Card key={i} classes={{ root: classes.card }} className="w-11/12">
               <div className="relative flex items-center">
                 <div className="w-56 h-56">
                   <img
@@ -119,26 +130,30 @@ export const TypeEntertainment: FC<IProps> = (props) => {
                 </CardActions>
               </div>
               <Collapse in={cardSelected === i && expanded} timeout="auto" unmountOnExit>
-                <div className="mt-5 p-4 ml-24 w-1/2">
-                  <div>
-                    <p className="font-bold whitespace-nowrap">Description :</p>
-                    <p>{entertainment.description}</p>
+                {!!entertainment.description && (
+                  <div className="mt-5 p-4 ml-24 w-1/2">
+                    <div>
+                      <p className="font-bold whitespace-nowrap">Description :</p>
+                      <p>{entertainment.description}</p>
+                    </div>
                   </div>
-                </div>
+                )}
                 {!!entertainment.others_images && (
-                  <div className="my-16 flex items-center justify-evenly">
+                  <div className="my-16 flex flex-col ">
                     {entertainment.type === 'Cinéma' && (
                       <p className="font-bold text-lg mb-5">Films à l'affiche :</p>
                     )}
-                    {entertainment.others_images?.map((image) => (
-                      <div className="w-48 h-48">
-                        <img
-                          className="w-full h-full object-cover object-center rounded-3xl shadow-xl"
-                          src={process.env.PUBLIC_URL + image}
-                          alt=""
-                        />
-                      </div>
-                    ))}
+                    <div className="flex justify-evenly ">
+                      {entertainment.others_images?.map((image, i) => (
+                        <div key={i} className="w-48 h-48">
+                          <img
+                            className="w-full h-full object-cover object-center rounded-3xl shadow-xl"
+                            src={process.env.PUBLIC_URL + image}
+                            alt=""
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </Collapse>

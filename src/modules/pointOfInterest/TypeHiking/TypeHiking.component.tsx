@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import {
   Card,
@@ -19,13 +19,26 @@ import {
   faWalking,
 } from '@fortawesome/free-solid-svg-icons';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { IHikingOfInterest } from '../../../typing/pointOfInterest';
 
-export interface IProps {}
+export interface IProps {
+  addressSelected: string;
+}
 
 export const TypeHiking: FC<IProps> = (props) => {
   const classes = useStyles();
+  const { addressSelected } = props;
+
   const [expanded, setExpanded] = useState<boolean>(false);
   const [cardSelected, setCardSelected] = useState({});
+  const [filteredHiking, setFilteredHiking] = useState<IHikingOfInterest[]>([]);
+
+  useEffect(() => {
+    const filterCityHiking = hikingOfInterestMocks.filter(
+      (hiking) => hiking.vicinity === addressSelected
+    );
+    setFilteredHiking(filterCityHiking);
+  }, [addressSelected]);
 
   const handleExpandClick = (index: number) => {
     setCardSelected(index);
@@ -43,9 +56,9 @@ export const TypeHiking: FC<IProps> = (props) => {
         <h2 className={`${classes.heavitasFont} text-xl`}>Randonnées</h2>
       </div>
       <div className="mt-12 space-y-20">
-        {!!hikingOfInterestMocks.length ? (
-          hikingOfInterestMocks.map((hiking, i) => (
-            <Card classes={{ root: classes.card }} className="w-11/12">
+        {!!filteredHiking.length ? (
+          filteredHiking.map((hiking, i) => (
+            <Card key={i} classes={{ root: classes.card }} className="w-11/12">
               <div className="relative flex items-center">
                 <div className="w-56 h-56">
                   <img
@@ -116,8 +129,8 @@ export const TypeHiking: FC<IProps> = (props) => {
                 </div>
                 {!!hiking.others_images && (
                   <div className="my-16 flex items-center justify-evenly">
-                    {hiking.others_images?.map((image) => (
-                      <div className="w-48 h-48">
+                    {hiking.others_images?.map((image, i) => (
+                      <div key={i} className="w-48 h-48">
                         <img
                           className="w-full h-full object-cover object-center rounded-3xl shadow-xl"
                           src={process.env.PUBLIC_URL + image}

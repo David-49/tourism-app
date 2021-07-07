@@ -15,10 +15,11 @@ import { Link } from 'react-router-dom';
 
 export interface IProps {
   setCoordinateSelected: (value: ICoordinateGps) => void;
+  setAddressSelected: (value: string) => void;
 }
 
 export const HomePage: FC<IProps> = (props) => {
-  const { setCoordinateSelected } = props;
+  const { setCoordinateSelected, setAddressSelected } = props;
   const classes = useStyles();
 
   const handleGetLocation = () => {
@@ -63,7 +64,10 @@ export const HomePage: FC<IProps> = (props) => {
             </p>
             <div className={classes.containerButton}>
               <div className="w-3/4 mb-6">
-                <SearchPlace setCoordinateSelected={setCoordinateSelected} />
+                <SearchPlace
+                  setAddressSelected={setAddressSelected}
+                  setCoordinateSelected={setCoordinateSelected}
+                />
               </div>
 
               <button

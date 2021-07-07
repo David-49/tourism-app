@@ -96,6 +96,28 @@ export interface ILodgingOfInterest {
   others_images?: string[];
 }
 
+export interface IAllTypesOfInterest {
+  id: string;
+  name: string;
+  vicinity: string;
+  address: string;
+  url_image: string;
+  special_regime?: string;
+  typeRestaurant?: TTypeOfRestaurant;
+  typeEntertainment?: TTypeOfEntertainment;
+  phone_number?: string;
+  info_sup?: string[];
+  location: {
+    lat: number;
+    lng: number;
+  };
+  distance?: number;
+  duration?: string;
+  description?: string;
+  shortDescription?: string;
+  others_images?: string[];
+}
+
 export interface ICoordinateGps {
   lat: number;
   lng: number;

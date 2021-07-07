@@ -1,60 +1,58 @@
 import React, { FC } from 'react';
 
-import { createStyles, makeStyles } from '@material-ui/core';
-import { ICoordinateGps } from '../../../typing/pointOfInterest';
 import TypeRestaurant from '../TypeRestaurant';
 import TypeEntertainment from '../TypeEntertainment';
 import TypeHiking from '../TypeHiking';
 import TypeLodging from '../TypeLodging';
 
 export interface IProps {
-  coordinateSelected: ICoordinateGps;
+  addressSelected: string;
   filterSelected: string;
 }
 
 export const PointsOfInterest: FC<IProps> = (props) => {
-  const { coordinateSelected, filterSelected } = props;
+  const { filterSelected, addressSelected } = props;
 
   return (
     <div className="my-20">
       {filterSelected === 'Tout' && (
         <>
           <div className="mt-32">
-            <TypeRestaurant />
+            <TypeRestaurant addressSelected={addressSelected} />
           </div>
           <div className="mt-32">
-            <TypeEntertainment />
+            <TypeEntertainment addressSelected={addressSelected} />
           </div>
           <div className="mt-32">
-            <TypeHiking />
+            <TypeHiking addressSelected={addressSelected} />
           </div>
           <div className="mt-32">
-            <TypeLodging />
+            <TypeLodging addressSelected={addressSelected} />
           </div>
         </>
       )}
 
       {filterSelected === 'Restaurant' && (
         <div className="mt-20">
-          <TypeRestaurant />
+          <TypeRestaurant addressSelected={addressSelected} />
         </div>
       )}
 
       {filterSelected === 'Divertissement' && (
         <div className="mt-20">
-          <TypeEntertainment />
+          <TypeEntertainment addressSelected={addressSelected} />
         </div>
       )}
 
       {filterSelected === 'Randonnées' && (
         <div className="mt-20">
-          <TypeHiking />
+          <TypeHiking addressSelected={addressSelected} />
         </div>
       )}
 
       {filterSelected === 'Randonnées' && (
         <div className="mt-20">
-          <TypeLodging />
+          <TypeLodging addressSelected={addressSelected} />
         </div>
       )}
     </div>

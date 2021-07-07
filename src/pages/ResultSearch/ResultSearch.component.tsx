@@ -9,18 +9,19 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrosshairs } from '@fortawesome/free-solid-svg-icons';
-
 export interface IProps {
   setCoordinateSelected: (value: ICoordinateGps) => void;
+  setAddressSelected: (value: string) => void;
   coordinateSelected: ICoordinateGps;
+  addressSelected: string;
 }
 
 export const ResultSearch: FC<IProps> = (props) => {
-  const { setCoordinateSelected, coordinateSelected } = props;
+  const { setCoordinateSelected, coordinateSelected, setAddressSelected, addressSelected } = props;
   const classes = useStyles();
 
-  const [displayListActive, setDisplayListActive] = useState<boolean>(false);
-  const [displayMapActive, setDisplayMapActive] = useState<boolean>(true);
+  const [displayListActive, setDisplayListActive] = useState<boolean>(true);
+  const [displayMapActive, setDisplayMapActive] = useState<boolean>(false);
   const [filterSelected, setFilterSelected] = useState<string>('Tout');
 
   const handleDisplayMap = () => {
@@ -88,8 +89,9 @@ export const ResultSearch: FC<IProps> = (props) => {
             Que recherchez-vous ?
           </p>
           <div className={`${classes.heavitasFont} flex flex-col items-center space-y-6`}>
-            {listType.map((type) => (
+            {listType.map((type, i) => (
               <p
+                key={i}
                 onClick={() => setFilterSelected(type)}
                 className={` w-full bg-white rounded-3xl text-center py-2 px-4 hover:bg-blue-default hover:text-white cursor-pointer ${
                   filterSelected === type ? 'bg-blue-default text-white' : ''
@@ -104,7 +106,10 @@ export const ResultSearch: FC<IProps> = (props) => {
           <Header />
           <div className="my-8 w-11/12 m-auto flex items-center">
             <div className="w-11/12">
-              <SearchPlace setCoordinateSelected={setCoordinateSelected} />
+              <SearchPlace
+                setAddressSelected={setAddressSelected}
+                setCoordinateSelected={setCoordinateSelected}
+              />
             </div>
             <button
               onClick={handleGetLocation}
@@ -116,13 +121,10 @@ export const ResultSearch: FC<IProps> = (props) => {
           </div>
           {!!displayMapActive ? (
             <div className="h-full">
-              <GoogleMaps coordinateGps={coordinateSelected} />
+              <GoogleMaps addressSelected={addressSelected} coordinateGps={coordinateSelected} />
             </div>
           ) : (
-            <PointsOfInterest
-              filterSelected={filterSelected}
-              coordinateSelected={coordinateSelected}
-            />
+            <PointsOfInterest filterSelected={filterSelected} addressSelected={addressSelected} />
           )}
         </div>
       </div>

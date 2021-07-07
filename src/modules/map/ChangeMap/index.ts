@@ -1,1 +1,0 @@
-export { ChangeMap as default } from "./ChangeMap.component"

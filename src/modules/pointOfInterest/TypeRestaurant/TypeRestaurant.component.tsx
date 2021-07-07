@@ -15,10 +15,13 @@ import { faLaptop, faMapMarkerAlt, faPhone } from '@fortawesome/free-solid-svg-i
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { IRestaurantOfInterest } from '../../../typing/pointOfInterest';
 
-export interface IProps {}
+export interface IProps {
+  addressSelected: string;
+}
 
 export const TypeRestaurant: FC<IProps> = (props) => {
   const classes = useStyles();
+  const { addressSelected } = props;
   const [activeType, setActiveType] = useState<string>('Tout');
   const [expanded, setExpanded] = useState<boolean>(false);
   const [cardSelected, setCardSelected] = useState({});
@@ -27,15 +30,21 @@ export const TypeRestaurant: FC<IProps> = (props) => {
   const listTypes = ['Tout', 'Pizzéria', 'Crêperie', 'Burgers', 'Asiatique', 'Indien', 'Bistrot'];
 
   useEffect(() => {
+    const filterCityRestaurant = restaurantOfInterestMocks.filter(
+      (restaurant) => restaurant.vicinity === addressSelected
+    );
+    setFilteredRestaurant(filterCityRestaurant);
+    if (!filterCityRestaurant.length) return;
+
     if (activeType === 'Tout') {
-      setFilteredRestaurant(restaurantOfInterestMocks);
+      setFilteredRestaurant(filterCityRestaurant);
       return;
     }
-    const filterRestaurant = restaurantOfInterestMocks.filter(
+    const filterRestaurant = filterCityRestaurant.filter(
       (restaurant) => restaurant.type === activeType
     );
     setFilteredRestaurant(filterRestaurant);
-  }, [activeType]);
+  }, [activeType, addressSelected]);
 
   const handleExpandClick = (index: number) => {
     setCardSelected(index);
@@ -53,8 +62,9 @@ export const TypeRestaurant: FC<IProps> = (props) => {
         <h2 className={`${classes.heavitasFont} text-xl`}>Restaurant</h2>
       </div>
       <div className="space-x-4 mt-10">
-        {listTypes.map((type) => (
+        {listTypes.map((type, i) => (
           <span
+            key={i}
             onClick={() => setActiveType(type)}
             className={`${classes.heavitasFont} ${classes.chip} ${
               activeType === type ? 'shadow-none bg-redRestaurant text-white' : ''
@@ -67,7 +77,7 @@ export const TypeRestaurant: FC<IProps> = (props) => {
       <div className="mt-20 space-y-20">
         {!!filteredRestaurant.length ? (
           filteredRestaurant.map((restaurant, i) => (
-            <Card classes={{ root: classes.card }} className="w-11/12">
+            <Card key={i} classes={{ root: classes.card }} className="w-11/12">
               <div className="relative flex items-center">
                 <div className="w-56 h-56">
                   <img
@@ -129,8 +139,8 @@ export const TypeRestaurant: FC<IProps> = (props) => {
                 </div>
                 {!!restaurant.others_images && (
                   <div className="my-16 flex items-center justify-evenly">
-                    {restaurant.others_images?.map((image) => (
-                      <div className="w-48 h-48">
+                    {restaurant.others_images?.map((image, i) => (
+                      <div key={i} className="w-48 h-48">
                         <img
                           className="w-full h-full object-cover object-center rounded-3xl shadow-xl"
                           src={process.env.PUBLIC_URL + image}
