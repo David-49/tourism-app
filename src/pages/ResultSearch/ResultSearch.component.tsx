@@ -60,7 +60,7 @@ export const ResultSearch: FC<IProps> = (props) => {
   const listType = ['Tout', 'Restaurant', 'Divertissement', 'Randonnées', 'Hôtels / Campings'];
 
   return (
-    <div>
+    <div className="overflow-x-hidden">
       <div className="w-screen flex justify-stretch overflow-hidden min-h-screen">
         <div className="flex-grow flex flex-col items-center pt-10 bg-gray-100 sticky">
           <p className={`${classes.heavitasFont}`}>
@@ -102,7 +102,7 @@ export const ResultSearch: FC<IProps> = (props) => {
             ))}
           </div>
         </div>
-        <div className="flex-grow w-8/12 overflow-hidden">
+        <div className="flex-grow w-7/12 overflow-hidden">
           <Header />
           <div className="my-8 w-11/12 m-auto flex items-center">
             <div className="w-11/12">
@@ -121,7 +121,11 @@ export const ResultSearch: FC<IProps> = (props) => {
           </div>
           {!!displayMapActive ? (
             <div className="h-full">
-              <GoogleMaps addressSelected={addressSelected} coordinateGps={coordinateSelected} />
+              <GoogleMaps
+                filterSelected={filterSelected}
+                addressSelected={addressSelected}
+                coordinateGps={coordinateSelected}
+              />
             </div>
           ) : (
             <PointsOfInterest filterSelected={filterSelected} addressSelected={addressSelected} />

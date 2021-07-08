@@ -99,7 +99,7 @@ export const TypeRestaurant: FC<IProps> = (props) => {
                       <div className="flex items-center">
                         <FontAwesomeIcon icon={faLaptop} />
                         <p className="text-xs ml-2 rounded-3xl bg-redRestaurant text-white px-2 py-1">
-                          Voir le ite internet
+                          Voir le site internet
                         </p>
                       </div>
                       <div className="flex items-center">
@@ -154,7 +154,9 @@ export const TypeRestaurant: FC<IProps> = (props) => {
             </Card>
           ))
         ) : (
-          <p className="mt-40 text-xl font-bold text-center">Aucun restaurant n'a été trouvé 😥</p>
+          <p className="mt-40 text-xl font-bold text-center">
+            Aucun restaurant n'a été trouvé pour le genre {activeType} 😥
+          </p>
         )}
       </div>
     </div>

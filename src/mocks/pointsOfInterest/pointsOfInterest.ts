@@ -1,10 +1,22 @@
 import {
   IAllTypesOfInterest,
+  ICitySelected,
   IEntertainmentOfInterest,
   IHikingOfInterest,
   ILodgingOfInterest,
   IRestaurantOfInterest,
 } from '../../typing/pointOfInterest';
+
+export const citySelectedMocks: ICitySelected[] = [
+  {
+    vicinity: 'Vannes, France',
+    url_image: '/assets/images/photo_ville/vannes_france.jpg',
+  },
+  {
+    vicinity: 'Angers, France',
+    url_image: '/assets/images/photo_ville/angers_france.jpg',
+  },
+];
 
 export const restaurantOfInterestMocks: IRestaurantOfInterest[] = [
   {
@@ -181,6 +193,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '0',
     name: "L'atelier",
+    typeOfInterest: 'Restaurant',
     typeRestaurant: 'Crêperie',
     vicinity: 'Vannes, France',
     address: '7, Rue Noé',
@@ -198,6 +211,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '1',
     name: 'Le cosy',
+    typeOfInterest: 'Restaurant',
     typeRestaurant: 'Pizzéria',
     vicinity: 'Vannes, France',
     address: '2 Place Maurice Marchais',
@@ -220,6 +234,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '2',
     name: 'Le Musée de la cohue',
+    typeOfInterest: 'Divertissement',
     typeEntertainment: 'Musée',
     vicinity: 'Vannes, France',
     address: '9, Place Saint Pierre',
@@ -241,6 +256,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '3',
     name: 'Cinéville Parc Lann',
+    typeOfInterest: 'Divertissement',
     typeEntertainment: 'Cinéma',
     vicinity: 'Vannes, France',
     address: 'Rue Aristide Boucicaut',
@@ -261,6 +277,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '4',
     name: 'Rando des Rives de Vannes',
+    typeOfInterest: 'Randonnées',
     vicinity: 'Vannes, France',
     address: 'Départ giratoire du Racquer',
     phone_number: '02 97 42 33 81',
@@ -282,6 +299,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '5',
     name: 'Circuit des Moulins – Saint Avé',
+    typeOfInterest: 'Randonnées',
     vicinity: 'Vannes, France',
     address: '13 Place Notre-Dame du Loc',
     phone_number: '02 97 42 51 81',
@@ -303,6 +321,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '6',
     name: "Appart'city confort Vannes",
+    typeOfInterest: 'Hôtels / Campings',
     vicinity: 'Vannes, France',
     address: 'Rue Alfred Kastler',
     phone_number: '02 97 44 29 70',
@@ -315,6 +334,7 @@ export const allTypesOfInterestMocks: IAllTypesOfInterest[] = [
   {
     id: '7',
     name: 'Première classe Vannes',
+    typeOfInterest: 'Hôtels / Campings',
     vicinity: 'Vannes, France',
     address: 'Zac du Chapeau Rouge',
     phone_number: '02 97 45 51 29',

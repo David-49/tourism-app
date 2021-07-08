@@ -102,7 +102,7 @@ export const TypeEntertainment: FC<IProps> = (props) => {
                       <div className="flex items-center">
                         <FontAwesomeIcon icon={faLaptop} />
                         <p className="text-xs ml-2 rounded-3xl bg-purpleEntertainment text-white px-2 py-1">
-                          Voir le ite internet
+                          Voir le site internet
                         </p>
                       </div>
                       <div className="flex items-center">
@@ -141,7 +141,7 @@ export const TypeEntertainment: FC<IProps> = (props) => {
                 {!!entertainment.others_images && (
                   <div className="my-16 flex flex-col ">
                     {entertainment.type === 'Cinéma' && (
-                      <p className="font-bold text-lg mb-5">Films à l'affiche :</p>
+                      <p className="font-bold text-lg mb-5 ml-8">Films à l'affiche :</p>
                     )}
                     <div className="flex justify-evenly ">
                       {entertainment.others_images?.map((image, i) => (
@@ -161,7 +161,7 @@ export const TypeEntertainment: FC<IProps> = (props) => {
           ))
         ) : (
           <p className="mt-40 text-xl font-bold text-center">
-            Aucun entertainment n'a été trouvé 😥
+            Aucun divertissement n'a été trouvé pour le genre {activeType} 😥
           </p>
         )}
       </div>

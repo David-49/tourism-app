@@ -8,10 +8,11 @@ import { allTypesOfInterestMocks } from '../../../mocks/pointsOfInterest/pointsO
 export interface IProps {
   coordinateGps: ICoordinateGps;
   addressSelected: string;
+  filterSelected: string;
 }
 
 export const Map: FC<IProps> = (props) => {
-  const { coordinateGps, addressSelected } = props;
+  const { coordinateGps, addressSelected, filterSelected } = props;
 
   // const [coordsResult, setCoordsResult] = useState<google.maps.places.PlaceResult[] | undefined>(
   //   []
@@ -32,7 +33,21 @@ export const Map: FC<IProps> = (props) => {
   useEffect(() => {
     const filterCity = allTypesOfInterestMocks.filter((type) => type.vicinity === addressSelected);
     setFilteredPointsOfInteres(filterCity);
-  }, [addressSelected]);
+    if (!filterCity.length) return;
+
+    if (filterSelected === 'Tout') {
+      setFilteredPointsOfInteres(filterCity);
+      return;
+    }
+
+    const filterTypeOfInterest = filterCity.filter(
+      (pointOfInterest) => pointOfInterest.typeOfInterest === filterSelected
+    );
+
+    setFilteredPointsOfInteres(filterTypeOfInterest);
+
+    console.log(filterTypeOfInterest);
+  }, [addressSelected, filterSelected]);
 
   // const onMapLoad = useCallback(
   //   (map: google.maps.Map | HTMLDivElement) => {
@@ -86,7 +101,7 @@ export const Map: FC<IProps> = (props) => {
         center={coordinateGps}
         zoom={13}
         // onLoad={(map) => onMapLoad(map)}
-        mapContainerStyle={{ height: '600px', width: '1240px' }}
+        mapContainerStyle={{ height: '600px', width: '1220px' }}
       >
         {filteredPointsOfInterest.map((result, i) => (
           <Marker

@@ -37,6 +37,8 @@ export const TypeLodging: FC<IProps> = (props) => {
   const [cardSelected, setCardSelected] = useState({});
   const [filteredHiking, setFilteredHiking] = useState<ILodgingOfInterest[]>([]);
 
+  const listIcon = [faPaw, faWheelchair, faRestroom, faParking, faDumbbell, faHotTub];
+
   useEffect(() => {
     const filterCityLodging = lodgingOfInterestMocks.filter(
       (lodging) => lodging.vicinity === addressSelected
@@ -84,7 +86,7 @@ export const TypeLodging: FC<IProps> = (props) => {
                       <div className="flex items-center">
                         <FontAwesomeIcon icon={faLaptop} />
                         <p className="text-xs ml-2 rounded-3xl bg-greenlodging text-white px-2 py-1">
-                          Voir le ite internet
+                          Voir le site internet
                         </p>
                       </div>
                       <div className="flex items-center">
@@ -94,7 +96,7 @@ export const TypeLodging: FC<IProps> = (props) => {
                     </div>
                   </div>
                 </div>
-                <div className="absolute right-3 top-2/4 transform -translate-y-1/2 bg-greenlodging px-6  py-5 rounded-2xl">
+                <div className="absolute right-3 top-2/4 transform -translate-y-1/2 bg-orangeLodging px-6  py-5 rounded-2xl">
                   <FontAwesomeIcon className="text-white" icon={faMapMarkerAlt} />
                 </div>
                 <CardActions className="absolute right-2 -bottom-3">
@@ -112,14 +114,19 @@ export const TypeLodging: FC<IProps> = (props) => {
               </div>
               <Collapse in={cardSelected === i && expanded} timeout="auto" unmountOnExit>
                 <div className="mt-5 p-4 ml-24">
-                  <div>
-                    <p className="font-bold mt-6 mb-2">Détails :</p>
-                    <div className={`flex items-center flex-wrap space-x-3`}>
-                      {lodging.info_sup?.map((lodg, i) => (
-                        <p key={i}>{lodg}</p>
-                      ))}
+                  {!!lodging.info_sup && (
+                    <div>
+                      <p className="font-bold mt-6 mb-4">Détails :</p>
+                      <div className={`grid grid-cols-2 gap-8`}>
+                        {lodging.info_sup?.map((lodg, i) => (
+                          <div key={i} className="flex items-center space-x-4">
+                            <FontAwesomeIcon icon={listIcon[i]} />
+                            <p>{lodg}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 {!!lodging.others_images && (
                   <div className="my-16 flex items-center justify-evenly">

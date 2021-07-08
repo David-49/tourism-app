@@ -21,9 +21,10 @@ export type TTypePointOfInterest =
   | 'Restaurant'
   | 'Divertissement'
   | 'Randonnées'
-  | 'Hôtels/Campings';
+  | 'Hôtels / Campings';
 
 export interface ICitySelected {
+  vicinity: string;
   url_image: string;
 }
 
@@ -103,6 +104,7 @@ export interface IAllTypesOfInterest {
   address: string;
   url_image: string;
   special_regime?: string;
+  typeOfInterest: TTypePointOfInterest;
   typeRestaurant?: TTypeOfRestaurant;
   typeEntertainment?: TTypeOfEntertainment;
   phone_number?: string;

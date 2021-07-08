@@ -80,7 +80,7 @@ export const TypeHiking: FC<IProps> = (props) => {
                       <div className="flex items-center">
                         <FontAwesomeIcon icon={faLaptop} />
                         <p className="text-xs ml-2 rounded-3xl bg-greenHiking text-white px-2 py-1">
-                          Voir le ite internet
+                          Voir le site internet
                         </p>
                       </div>
                       <div className="flex items-center">
